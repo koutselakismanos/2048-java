@@ -1,24 +1,19 @@
 package view;
 
+import controller.Game;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class GameBoard extends JPanel {
-    private Dimension size;
-    private final int yOffset = 0; // in case i need to move the board on x or y axis
-    private final int xOffset = 0;
-
+public class BoardView extends JPanel {
     final int fontSize = 30;
     final Font font = new Font("", Font.BOLD, fontSize);
 
-    // get center of JPanel
     int canvasXCenterPosition;
     int canvasYCenterPosition;
 
     final int boardDimensions = 200;
-    final int gridSize = 4;
     final int strokeWidth = 7;
-
 
     int leftX;
     int rightX;
@@ -27,20 +22,20 @@ public class GameBoard extends JPanel {
 
     int tileDimensions;
 
-    public GameBoard() {
-        size = getSize();
-    }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
         useAntialiasing(g2d);
 
-        this.size = getSize();
+        Dimension size = getSize();
+
+        int xOffset = 0; // in case i need to move the board in x or y axis
+        int yOffset = 0;
 
         // get center of JPanel
         canvasXCenterPosition = (int) size.getWidth() / 2 + xOffset;
+        // in case i need to move the board on x or y axis
         canvasYCenterPosition = (int) size.getHeight() / 2 + yOffset;
 
         leftX = canvasXCenterPosition - boardDimensions;
@@ -48,15 +43,16 @@ public class GameBoard extends JPanel {
         topY = canvasYCenterPosition - boardDimensions;
         bottomY = canvasYCenterPosition + boardDimensions;
 
-        tileDimensions = (rightX - leftX) / gridSize;
+        tileDimensions = (rightX - leftX) / Game.BOARD.getBoardSize();
 
         drawBackground(g2d);
 
-        drawTile(g2d, 0, 0, "16");
-        drawTile(g2d, 0, 2, "2");
-        drawTile(g2d, 3, 2, "2048");
-        drawTile(g2d, 2, 0, "4");
-        drawTile(g2d, 3, 0, "4");
+//        drawTile(g2d, 0, 0, "16");
+//        drawTile(g2d, 0, 2, "2");
+//        drawTile(g2d, 3, 2, "2048");
+//        drawTile(g2d, 2, 0, "4");
+//        drawTile(g2d, 3, 0, "4");
+        drawTiles(g2d);
 
         drawGrid(g2d);
     }
@@ -82,7 +78,8 @@ public class GameBoard extends JPanel {
      * @param text Text print on tile
      */
     private void drawTile(Graphics2D g2d, int x, int y, String text) {
-        if (x >= gridSize || y >= gridSize) {
+        // check if x or y is out of bounds
+        if (x >= Game.BOARD.getBoardSize() || y >= Game.BOARD.getBoardSize()) {
             return;
         }
 
@@ -98,6 +95,16 @@ public class GameBoard extends JPanel {
                 new Rectangle(tileLeftX, tileTopY, tileDimensions, tileDimensions),
                 font
         );
+    }
+
+    private void drawTiles(Graphics2D g2d) {
+        for (int i = 0; i < Game.BOARD.getBoardSize(); i++) {
+            for (int j = 0; j < Game.BOARD.getBoardSize(); j++) {
+                if (!Game.BOARD.isTileEmpty(i, j)) {
+                    drawTile(g2d, i, j, String.valueOf(Game.BOARD.getTileValue(i, j)));
+                }
+            }
+        }
     }
 
     /**
@@ -144,12 +151,12 @@ public class GameBoard extends JPanel {
         g2d.setStroke(new BasicStroke(strokeWidth));
 
         // draw rows
-        for (int i = 1; i < gridSize; i++) {
+        for (int i = 1; i < Game.BOARD.getBoardSize(); i++) {
             g2d.drawLine(leftX, (i * tileDimensions) + topY, rightX, (i * tileDimensions) + topY);
         }
 
         // draw the columns
-        for (int i = 1; i < gridSize; i++) {
+        for (int i = 1; i < Game.BOARD.getBoardSize(); i++) {
             g2d.drawLine((i * tileDimensions) + leftX, topY, (i * tileDimensions) + leftX, bottomY);
         }
     }

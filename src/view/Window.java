@@ -1,5 +1,7 @@
 package view;
 
+import controller.Game;
+
 import javax.swing.*;
 
 public class Window extends JFrame {
@@ -36,7 +38,8 @@ public class Window extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
 
-        add(new GameBoard());
+        add(new BoardView());
+        addKeyListener(Game.KEYBOARD); // key input events
 
         setVisible(true);
     }
