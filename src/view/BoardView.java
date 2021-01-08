@@ -1,6 +1,6 @@
 package view;
 
-import controller.Game;
+import utilities.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,17 +43,11 @@ public class BoardView extends JPanel {
         topY = canvasYCenterPosition - boardDimensions;
         bottomY = canvasYCenterPosition + boardDimensions;
 
-        tileDimensions = (rightX - leftX) / Game.BOARD.getBoardSize();
+        tileDimensions = (rightX - leftX) / Game.BOARD_CONTROLLER.getBoardSize();
 
         drawBackground(g2d);
 
-//        drawTile(g2d, 0, 0, "16");
-//        drawTile(g2d, 0, 2, "2");
-//        drawTile(g2d, 3, 2, "2048");
-//        drawTile(g2d, 2, 0, "4");
-//        drawTile(g2d, 3, 0, "4");
         drawTiles(g2d);
-
         drawGrid(g2d);
     }
 
@@ -72,43 +66,53 @@ public class BoardView extends JPanel {
     /**
      * Draws a tile on the board given a x and y position
      *
-     * @param g2d  Graphics2D
-     * @param x    Position
-     * @param y    Position
-     * @param text Text print on tile
+     * @param g2d   Graphics2D
+     * @param x     Position
+     * @param y     Position
+     * @param value Value to print on tile
      */
-    private void drawTile(Graphics2D g2d, int x, int y, String text) {
+    private void drawTile(Graphics2D g2d, int x, int y, String value) {
         // check if x or y is out of bounds
-        if (x >= Game.BOARD.getBoardSize() || y >= Game.BOARD.getBoardSize()) {
+        if (x >= Game.BOARD_CONTROLLER.getBoardSize() || y >= Game.BOARD_CONTROLLER.getBoardSize()) {
             return;
         }
 
         int tileLeftX = leftX + (x * tileDimensions);
         int tileTopY = topY + (y * tileDimensions);
-        g2d.setColor(Palette.twoTileColor);
-        g2d.fillRoundRect(tileLeftX, tileTopY, tileDimensions, tileDimensions, 4, 4);
+        if (Palette.tileColors.containsKey(value)) {
+            g2d.setColor(Palette.tileColors.get(value));
+        } else {
+            g2d.setColor(Palette.tileColors.get("2048")); // if value is above 2048 keep drawing with the 2048 color
+        }
+        g2d.fillRect(tileLeftX, tileTopY, tileDimensions, tileDimensions);
 
-        g2d.setColor(Palette.fontColor1);
+        // if value is above 8 change font color
+        if (Integer.parseInt(value) < 8) {
+            g2d.setColor(Palette.fontColor1);
+        } else {
+            g2d.setColor(Palette.fontColor2);
+        }
+
         drawCenteredString(
                 g2d,
-                text,
+                value,
                 new Rectangle(tileLeftX, tileTopY, tileDimensions, tileDimensions),
                 font
         );
     }
 
     private void drawTiles(Graphics2D g2d) {
-        for (int i = 0; i < Game.BOARD.getBoardSize(); i++) {
-            for (int j = 0; j < Game.BOARD.getBoardSize(); j++) {
-                if (!Game.BOARD.isTileEmpty(i, j)) {
-                    drawTile(g2d, i, j, String.valueOf(Game.BOARD.getTileValue(i, j)));
+        for (int i = 0; i < Game.BOARD_CONTROLLER.getBoardSize(); i++) {
+            for (int j = 0; j < Game.BOARD_CONTROLLER.getBoardSize(); j++) {
+                if (!Game.BOARD_CONTROLLER.isTileEmpty(i, j)) {
+                    drawTile(g2d, i, j, String.valueOf(Game.BOARD_CONTROLLER.getTileValue(i, j)));
                 }
             }
         }
     }
 
     /**
-     * Draw a String centered in the middle of a Rectangle.
+     * view.Draw a String centered in the middle of a Rectangle.
      *
      * @param g2d  The Graphics instance.
      * @param text The String to draw.
@@ -123,7 +127,7 @@ public class BoardView extends JPanel {
         int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
         // Set the font
         g2d.setFont(font);
-        // Draw the String
+        // view.Draw the String
         g2d.drawString(text, x, y);
     }
 
@@ -151,12 +155,12 @@ public class BoardView extends JPanel {
         g2d.setStroke(new BasicStroke(strokeWidth));
 
         // draw rows
-        for (int i = 1; i < Game.BOARD.getBoardSize(); i++) {
+        for (int i = 1; i < Game.BOARD_CONTROLLER.getBoardSize(); i++) {
             g2d.drawLine(leftX, (i * tileDimensions) + topY, rightX, (i * tileDimensions) + topY);
         }
 
         // draw the columns
-        for (int i = 1; i < Game.BOARD.getBoardSize(); i++) {
+        for (int i = 1; i < Game.BOARD_CONTROLLER.getBoardSize(); i++) {
             g2d.drawLine((i * tileDimensions) + leftX, topY, (i * tileDimensions) + leftX, bottomY);
         }
     }

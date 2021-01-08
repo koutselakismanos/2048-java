@@ -1,7 +1,8 @@
-package controller;
+package utilities;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 public class Keyboard implements KeyListener {
     @Override
@@ -20,28 +21,34 @@ public class Keyboard implements KeyListener {
         switch (keyCode) {
             case KeyEvent.VK_W:
             case KeyEvent.VK_UP:
-                Game.BOARD.moveUp();
+                Game.BOARD_CONTROLLER.moveUp();
                 break;
 
             case KeyEvent.VK_S:
             case KeyEvent.VK_DOWN:
-                Game.BOARD.moveDown();
+                Game.BOARD_CONTROLLER.moveDown();
                 break;
 
             case KeyEvent.VK_A:
             case KeyEvent.VK_LEFT:
-                Game.BOARD.moveLeft();
+                Game.BOARD_CONTROLLER.moveLeft();
                 break;
 
             case KeyEvent.VK_D:
             case KeyEvent.VK_RIGHT:
-                Game.BOARD.moveRight();
+                Game.BOARD_CONTROLLER.moveRight();
                 break;
+
+            case KeyEvent.VK_G:
+                Game.DATABASE.store(Game.HISTORY_CONTROLLER);
+                break;
+
+            case KeyEvent.VK_F:
+                Game.HISTORY_CONTROLLER.printBoards();
             default:
                 return;
         }
 
-        Game.BOARD.insertRandomTile();
         Game.WINDOW.repaint();
     }
 }

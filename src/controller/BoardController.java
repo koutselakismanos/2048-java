@@ -1,31 +1,30 @@
 package controller;
 
+import model.BoardSchema;
+import model.TileSchema;
+import utilities.Game;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
-public class Board {
-    List<List<Tile>> tiles;
+public class BoardController extends BoardSchema {
 
-    int boardSize;
-
-    public Board(int boardSize) {
+    public BoardController(int boardSize) {
+        super();
         this.boardSize = boardSize;
+
         generateBoard();
 
         insertRandomTile();
         insertRandomTile();
-//        setTileAt(0, 0, 2);
-//        setTileAt(0, 1, 2);
-//        setTileAt(0, 2, 2);
-//        setTileAt(0, 3, 2);
-//
-//        setTileAt(0, 5, 2);
-//        setTileAt(0, 6, 2);
-//        setTileAt(0, 7, 2);
-//        setTileAt(0, 8, 2);
-        printBoard();
+        addBoardToHistory();
+//        HistoryController historyController = new HistoryController();
+//        historyController.printBoards();
+//        history.printHistory();
+//        historyController.saveBoard(model.getTiles());
     }
 
     public void generateBoard() {
@@ -39,6 +38,7 @@ public class Board {
         }
     }
 
+    // TODO: DELETE ME
     public void printBoard() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -47,7 +47,6 @@ public class Board {
             }
             System.out.println();
         }
-
     }
 
     public void insertRandomTile() {
@@ -62,14 +61,20 @@ public class Board {
         }
 
         Random rd = new Random();
-        int randomNumber = rd.nextInt(emptyTiles.size());
+        if (emptyTiles.size() > 0) {
+            int randomNumber = rd.nextInt(emptyTiles.size());
+            Point newTilePoint = emptyTiles.get(randomNumber);
 
-        Point newTilePoint = emptyTiles.get(randomNumber);
+            int twoOrFour;
+            int randomPercentage = rd.nextInt(100);
+            if (randomPercentage < 90) { // 90% to draw a 2 tile, 10% a 4 tile
+                twoOrFour = 2;
+            } else {
+                twoOrFour = 4;
+            }
 
-        int twoOrFour;
-        twoOrFour = rd.nextBoolean() ? 2 : 4;
-
-        setTileAt(newTilePoint.x, newTilePoint.y, twoOrFour);
+            setTileAt(newTilePoint.x, newTilePoint.y, twoOrFour);
+        }
     }
 
     public void setTileAt(int x, int y, int value) {
@@ -82,10 +87,10 @@ public class Board {
             return;
         }
 
-        tiles.get(x).set(y, new Tile(x, y, value));
+        tiles.get(x).set(y, new TileSchema(x, y, value));
     }
 
-    public Tile getTileAt(int x, int y) {
+    public TileSchema getTileAt(int x, int y) {
         return tiles.get(x).get(y);
     }
 
@@ -220,24 +225,39 @@ public class Board {
         shiftTilesLeft();
         mergeTilesLeft();
         shiftTilesLeft();
+        insertRandomTile();
+        addBoardToHistory();
     }
 
     public void moveRight() {
         shiftTilesRight();
         mergeTilesRight();
         shiftTilesRight();
+        insertRandomTile();
+        addBoardToHistory();
     }
 
     public void moveUp() {
         shiftTilesUp();
         mergeTilesUp();
         shiftTilesUp();
+        insertRandomTile();
+        addBoardToHistory();
     }
 
     public void moveDown() {
         shiftTilesDown();
         mergeTilesDown();
         shiftTilesDown();
+        insertRandomTile();
+        addBoardToHistory();
+    }
+
+    public void addBoardToHistory() {
+        // deep clone the 2 dimensional tile lists
+        List<List<TileSchema>> tilesClone = this.tiles.stream().map(ArrayList::new).collect(Collectors.toList());
+
+        Game.HISTORY_CONTROLLER.addBoard(new BoardSchema(tilesClone, 4));
     }
 
     public int getBoardSize() {

@@ -1,6 +1,6 @@
-package controller;
+package model;
 
-public class Tile {
+public class TileSchema {
     private int positionX;
     private int positionY;
     private int value;
@@ -10,7 +10,7 @@ public class Tile {
      * @param y     position
      * @param value of tile
      */
-    public Tile(int x, int y, int value) {
+    public TileSchema(int x, int y, int value) {
         this.positionX = x;
         this.positionY = y;
         this.value = value;

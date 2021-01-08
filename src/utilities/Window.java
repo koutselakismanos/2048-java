@@ -1,6 +1,6 @@
-package view;
+package utilities;
 
-import controller.Game;
+import view.BoardView;
 
 import javax.swing.*;
 
@@ -19,7 +19,7 @@ public class Window extends JFrame {
         return height;
     }
 
-    public Window() {
+    private Window() {
         initComponents();
     }
 
@@ -36,7 +36,7 @@ public class Window extends JFrame {
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // open window at center of screen
 
         add(new BoardView());
         addKeyListener(Game.KEYBOARD); // key input events
