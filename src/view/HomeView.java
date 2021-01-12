@@ -1,15 +1,50 @@
 package view;
 
+import utilities.Game;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-public class HomeView extends JFrame {
-    private JTextField textField1;
+public class HomeView extends JPanel {
+    private JTextField playerNameTextField;
     private JPanel mainPanel;
-    private JButton button1;
+    private JButton startButton;
 
     public HomeView() throws HeadlessException {
-        add(mainPanel);
-        setVisible(true);
+        initComponents();
     }
+
+    private void initComponents() {
+        add(mainPanel);
+
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame();
+            }
+        });
+
+        playerNameTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                int key = e.getKeyCode();
+
+                if (key == KeyEvent.VK_ENTER) {
+                    startGame();
+                }
+            }
+        });
+    }
+
+    private void startGame() {
+        if (!playerNameTextField.getText().equals("")) {
+            Game.WINDOW.startGame();
+        }
+    }
+
 }
