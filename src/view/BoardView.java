@@ -27,12 +27,14 @@ public class BoardView extends JPanel {
         this.boardController = boardController;
     }
 
-    public BoardView(BoardController boardController, Boolean drawBackButton) {
+    public BoardView(BoardController boardController, Boolean drawMenuOptions) {
         this.boardController = boardController;
 
-        if (drawBackButton) {
+        if (drawMenuOptions) {
             JComboBox<String> comboBox = new JComboBox<>(new String[]{"easy", "medium", "hard"});
             comboBox.setFocusable(false);
+
+            // set difficulty
             comboBox.addActionListener(e -> {
                 switch (comboBox.getSelectedIndex()) {
                     case 0:
@@ -59,6 +61,7 @@ public class BoardView extends JPanel {
             });
             add(comboBox);
 
+            // Go back to main menu
             Button btn = new Button("back");
             btn.addActionListener(e -> {
                 Game.BOARD_CONTROLLER.stopGame();
@@ -69,6 +72,9 @@ public class BoardView extends JPanel {
         }
     }
 
+    /**
+     * Draw the board, score and timer
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -99,9 +105,6 @@ public class BoardView extends JPanel {
         drawScore(g2d);
         drawTimer(g2d);
         drawPlayerName(g2d);
-//        if (drawBackButton) {
-//            drawBackButton();
-//        }
     }
 
     /**
@@ -165,6 +168,9 @@ public class BoardView extends JPanel {
 
     }
 
+    /**
+     * Draw all the tiles
+     */
     private void drawTiles(Graphics2D g2d) {
         for (int i = 0; i < boardController.getBoardSize(); i++) {
             for (int j = 0; j < boardController.getBoardSize(); j++) {
@@ -193,6 +199,7 @@ public class BoardView extends JPanel {
         g2d.setFont(font);
         g2d.setColor(Palette.fontColor1);
 
+        // convert milliseconds to minutes and seconds and draw them in the format mm:ss
         long milliseconds = boardController.getTime();
         long minutes = (milliseconds / 1000) / 60;
         int seconds = (int) ((milliseconds / 1000) % 60);

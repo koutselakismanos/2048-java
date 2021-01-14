@@ -22,17 +22,31 @@ public class MenuView extends JPanel {
         newGameButton.addActionListener(e -> newGame());
 
         historyButton.addActionListener(e -> historyMenu());
+        aboutButton.addActionListener(e -> about());
 
         exitButton.addActionListener(e -> System.exit(0));
     }
 
+    /**
+     * Navigate to new game view
+     */
     private void newGame() {
         Game.BOARD_CONTROLLER.resetBoard();
         Game.WINDOW.newGame();
     }
 
+    /**
+     * Navigate to history Menu view
+     */
     private void historyMenu() {
         Game.WINDOW.historyMenu();
+    }
+
+    /**
+     * Navigate to about view
+     */
+    private void about() {
+        Game.WINDOW.about();
     }
 
     public void setPlayerNameLabel(String playerName) {

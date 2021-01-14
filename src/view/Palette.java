@@ -4,6 +4,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The Colors of the board
+ */
 public class Palette {
     public final static Color foregroundColor = new Color(187, 173, 160);
     public final static Color backgroundColor = new Color(205, 193, 180);

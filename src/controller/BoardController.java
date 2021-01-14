@@ -20,6 +20,9 @@ public class BoardController extends BoardModel {
         this.boardSize = boardSize;
     }
 
+    /**
+     * Restart timer, and re-generate board
+     */
     public void resetBoard() {
         if (timer != null) {
             timer.stop();
@@ -50,6 +53,9 @@ public class BoardController extends BoardModel {
         Game.DATABASE.storeGame(Game.HISTORY_CONTROLLER);
     }
 
+    /**
+     * Generate board
+     */
     public void generateBoard() {
         tiles = new ArrayList<>();
 
@@ -61,17 +67,6 @@ public class BoardController extends BoardModel {
         }
     }
 
-    // TODO: DELETE ME
-    public void printBoard() {
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                System.out.print(getTileValue(i, j));
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
-
     public void setBoard(BoardModel boardModel) {
         this.tiles = boardModel.tiles;
         this.time = boardModel.time;
@@ -79,6 +74,9 @@ public class BoardController extends BoardModel {
         this.boardSize = boardModel.boardSize;
     }
 
+    /**
+     * Insert a random tile with a value of 2 with percentage 90% and a value of 4 with percentage of 10%
+     */
     public void insertRandomTile() {
         List<Point> emptyTiles = new ArrayList<>();
 
@@ -107,6 +105,9 @@ public class BoardController extends BoardModel {
         }
     }
 
+    /**
+     * Sets a tile at x and y location with a value
+     */
     public void setTileAt(int x, int y, int value) {
         if (x >= boardSize || y >= boardSize) {
             return;
@@ -128,6 +129,9 @@ public class BoardController extends BoardModel {
         tiles.get(x).set(y, null);
     }
 
+    /**
+     * Check if tile is not null at x, y location
+     */
     public boolean isTileNotEmpty(int x, int y) {
         return tiles.get(x).get(y) != null;
     }
@@ -156,6 +160,9 @@ public class BoardController extends BoardModel {
         }
     }
 
+    /**
+     * Merge up all tiles that are next to each other with the same value
+     */
     public void mergeTilesUp() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize - 1; j++) {
@@ -184,6 +191,9 @@ public class BoardController extends BoardModel {
         }
     }
 
+    /**
+     * Merge down all tiles that are next to each other with the same value
+     */
     public void mergeTilesDown() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = boardSize - 1; j > 0; j--) {
@@ -212,6 +222,9 @@ public class BoardController extends BoardModel {
     }
 
 
+    /**
+     * Merge left all tiles that are next to each other with the same value
+     */
     public void mergeTilesLeft() {
         for (int j = 0; j < boardSize; j++) {
             for (int i = 0; i < boardSize - 1; i++) {
@@ -239,7 +252,9 @@ public class BoardController extends BoardModel {
         }
     }
 
-
+    /**
+     * Merge right all tiles that are next to each other with the same value
+     */
     public void mergeTilesRight() {
         for (int j = 0; j < boardSize; j++) {
             for (int i = boardSize - 1; i > 0; i--) {
@@ -287,6 +302,9 @@ public class BoardController extends BoardModel {
         addBoardToHistory();
     }
 
+    /**
+     * Adds the current board to the history controller
+     */
     public void addBoardToHistory() {
         // deep clone the 2 dimensional tile lists
         List<List<TileModel>> tilesClone = this.tiles.stream().map(ArrayList::new).collect(Collectors.toList());
@@ -294,10 +312,16 @@ public class BoardController extends BoardModel {
         Game.HISTORY_CONTROLLER.addBoard(new BoardModel(tilesClone, boardSize, score, time));
     }
 
+    /**
+     * Resets history controller
+     */
     public void resetHistory() {
         Game.HISTORY_CONTROLLER.resetHistory();
     }
 
+    /**
+     * Calculate score by summing up all tile values
+     */
     public void calculateScore() {
         int sum = 0;
         for (int i = 0; i < boardSize; i++) {

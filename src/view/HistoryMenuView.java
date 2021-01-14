@@ -23,20 +23,19 @@ public class HistoryMenuView extends JPanel {
         backButton.addActionListener(e -> Game.WINDOW.mainMenu());
     }
 
+    /**
+     * List Player's game files
+     */
     public void addHistoryButtons() {
         container.removeAll();
 
-        for (GameFileModel gameFile : getAllUserGames()) {
+        for (GameFileModel gameFile : Game.DATABASE.getAllUserGames()) {
             Button button = new Button("Game " + gameFile.getIndex());
             button.setPreferredSize(new Dimension(150, 50));
             button.addActionListener(e -> Game.WINDOW.historyBoard(gameFile)
             );
             container.add(button);
         }
-    }
-
-    public List<GameFileModel> getAllUserGames() {
-        return Game.DATABASE.getAllUserGames();
     }
 
     private void createUIComponents() {

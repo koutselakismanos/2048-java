@@ -29,6 +29,7 @@ public class HomeView extends JPanel {
                 super.keyPressed(e);
                 int key = e.getKeyCode();
 
+                // On enter key submit input
                 if (key == KeyEvent.VK_ENTER) {
                     startGame();
                 }

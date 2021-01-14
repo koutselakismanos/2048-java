@@ -2,8 +2,6 @@ package database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import controller.HistoryController;
-import model.BoardModel;
 import model.GameFileModel;
 import model.HistoryModel;
 import utilities.Game;
@@ -24,6 +22,11 @@ public class Database {
                 .create();
     }
 
+    /**
+     * Will store a game file in the format playerName_index.json e.g. manos_2.json
+     *
+     * @param object Any java object
+     */
     public void storeGame(Object object) {
         int count = getCountOfUserGames();
         String path = storageFolder + Game.getPlayerName() + "_" + count + ".json";
@@ -36,6 +39,13 @@ public class Database {
         }
     }
 
+
+    /**
+     * Load a game file
+     *
+     * @param index of game file
+     * @return The game file data
+     */
     public HistoryModel loadGame(int index) {
         String path = storageFolder + Game.getPlayerName() + "_" + index + ".json";
         try (FileReader reader = new FileReader(path)) {
@@ -47,6 +57,9 @@ public class Database {
         return null;
     }
 
+    /**
+     * @return A list of game file models
+     */
     public List<GameFileModel> getAllUserGames() {
         List<GameFileModel> gameFiles = new ArrayList<>();
         if (!Game.getPlayerName().equals("")) {
@@ -66,6 +79,9 @@ public class Database {
         return gameFiles;
     }
 
+    /**
+     * Get the total amount of game files per user
+     */
     public int getCountOfUserGames() {
         File dir = new File(storageFolder);
         int count = 0;

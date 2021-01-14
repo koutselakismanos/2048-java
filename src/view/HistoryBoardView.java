@@ -23,11 +23,17 @@ public class HistoryBoardView extends JPanel {
         backButton.addActionListener(e -> Game.WINDOW.historyMenu());
     }
 
+    /**
+     * On JSlider change show the the matching board
+     */
     public void changeBoard() {
         boardController.setBoard(historyModel.boards.get(turnSlider.getValue()));
         Game.WINDOW.repaint();
     }
 
+    /**
+     * Load game file
+     */
     public void loadGame(GameFileModel gameFile) {
         turnSlider.setValue(0);
         historyModel = Game.DATABASE.loadGame(gameFile.getIndex());
