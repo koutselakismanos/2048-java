@@ -1,28 +1,31 @@
 package view;
 
+import controller.BoardController;
 import utilities.Game;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class BoardView extends JPanel {
-    final int fontSize = 30;
-    final Font font = new Font("", Font.BOLD, fontSize);
-    final Font smallerFont = new Font("", Font.BOLD, fontSize - 5);
+    private final int fontSize = 30;
+    private final Font font = new Font("", Font.BOLD, fontSize);
+    private final Font smallerFont = new Font("", Font.BOLD, fontSize - 5);
 
-    int canvasXCenterPosition;
-    int canvasYCenterPosition;
-
-    final int boardDimensions = 250;
+    private int boardDimensions = 250;
     final int strokeWidth = 7;
 
-    int leftX;
-    int rightX;
-    int topY;
-    int bottomY;
+    private int leftX;
+    private int rightX;
+    private int topY;
+    private int bottomY;
 
-    int tileDimensions;
+    private int tileDimensions;
 
+    private final BoardController boardController;
+
+    public BoardView(BoardController boardController) {
+        this.boardController = boardController;
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -36,16 +39,16 @@ public class BoardView extends JPanel {
         int yOffset = 50;
 
         // get center of JPanel
-        canvasXCenterPosition = (int) size.getWidth() / 2 + xOffset;
+        int canvasXCenterPosition = (int) size.getWidth() / 2 + xOffset;
         // in case i need to move the board on x or y axis
-        canvasYCenterPosition = (int) size.getHeight() / 2 + yOffset;
+        int canvasYCenterPosition = (int) size.getHeight() / 2 + yOffset;
 
         leftX = canvasXCenterPosition - boardDimensions;
         rightX = canvasXCenterPosition + boardDimensions;
         topY = canvasYCenterPosition - boardDimensions;
         bottomY = canvasYCenterPosition + boardDimensions;
 
-        tileDimensions = (rightX - leftX) / Game.BOARD_CONTROLLER.getBoardSize();
+        tileDimensions = (rightX - leftX) / boardController.getBoardSize();
 
         drawBackground(g2d);
 
@@ -78,7 +81,7 @@ public class BoardView extends JPanel {
      */
     private void drawTile(Graphics2D g2d, int x, int y, String value) {
         // check if x or y is out of bounds
-        if (x >= Game.BOARD_CONTROLLER.getBoardSize() || y >= Game.BOARD_CONTROLLER.getBoardSize()) {
+        if (x >= boardController.getBoardSize() || y >= boardController.getBoardSize()) {
             return;
         }
 
@@ -118,10 +121,10 @@ public class BoardView extends JPanel {
     }
 
     private void drawTiles(Graphics2D g2d) {
-        for (int i = 0; i < Game.BOARD_CONTROLLER.getBoardSize(); i++) {
-            for (int j = 0; j < Game.BOARD_CONTROLLER.getBoardSize(); j++) {
-                if (Game.BOARD_CONTROLLER.isTileNotEmpty(i, j)) {
-                    drawTile(g2d, i, j, String.valueOf(Game.BOARD_CONTROLLER.getTileValue(i, j)));
+        for (int i = 0; i < boardController.getBoardSize(); i++) {
+            for (int j = 0; j < boardController.getBoardSize(); j++) {
+                if (boardController.isTileNotEmpty(i, j)) {
+                    drawTile(g2d, i, j, String.valueOf(boardController.getTileValue(i, j)));
                 }
             }
         }
@@ -137,7 +140,7 @@ public class BoardView extends JPanel {
     private void drawScore(Graphics2D g2d) {
         g2d.setFont(font);
         g2d.setColor(Palette.fontColor1);
-        String scoreString = "Score: " + Game.BOARD_CONTROLLER.getScore();
+        String scoreString = "Score: " + boardController.getScore();
         g2d.drawString(scoreString, leftX, topY - 50);
     }
 
@@ -145,7 +148,7 @@ public class BoardView extends JPanel {
         g2d.setFont(font);
         g2d.setColor(Palette.fontColor1);
 
-        long milliseconds = Game.BOARD_CONTROLLER.getTime();
+        long milliseconds = boardController.getTime();
         long minutes = (milliseconds / 1000) / 60;
         int seconds = (int) ((milliseconds / 1000) % 60);
         String timerString = String.format("Time: %02d:%02d", minutes, seconds);
@@ -197,13 +200,18 @@ public class BoardView extends JPanel {
         g2d.setStroke(new BasicStroke(strokeWidth));
 
         // draw rows
-        for (int i = 1; i < Game.BOARD_CONTROLLER.getBoardSize(); i++) {
+        for (int i = 1; i < boardController.getBoardSize(); i++) {
             g2d.drawLine(leftX, (i * tileDimensions) + topY, rightX, (i * tileDimensions) + topY);
         }
 
         // draw the columns
-        for (int i = 1; i < Game.BOARD_CONTROLLER.getBoardSize(); i++) {
+        for (int i = 1; i < boardController.getBoardSize(); i++) {
             g2d.drawLine((i * tileDimensions) + leftX, topY, (i * tileDimensions) + leftX, bottomY);
         }
     }
+
+    public void setBoardDimensions(int boardDimensions) {
+        this.boardDimensions = boardDimensions;
+    }
+
 }

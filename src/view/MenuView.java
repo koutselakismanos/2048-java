@@ -3,8 +3,6 @@ package view;
 import utilities.Game;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MenuView extends JPanel {
     private JButton newGameButton;
@@ -15,11 +13,19 @@ public class MenuView extends JPanel {
     private JLabel playerNameLabel;
 
     public MenuView() {
+        initComponents();
+
+    }
+
+    private void initComponents() {
         add(mainPanel);
 
         newGameButton.addActionListener(e -> newGame());
 
-        historyButton.addActionListener(e -> history());
+        historyButton.addActionListener(e -> historyMenu());
+
+        exitButton.addActionListener(e -> System.exit(0));
+
     }
 
     private void newGame() {
@@ -27,8 +33,8 @@ public class MenuView extends JPanel {
         Game.WINDOW.newGame();
     }
 
-    private void history() {
-        Game.WINDOW.history();
+    private void historyMenu() {
+        Game.WINDOW.historyMenu();
     }
 
     public void setPlayerNameLabel(String playerName) {

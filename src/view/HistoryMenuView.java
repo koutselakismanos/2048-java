@@ -5,16 +5,22 @@ import utilities.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
-public class HistoryView extends JPanel {
+public class HistoryMenuView extends JPanel {
     private JPanel mainPanel;
     private JScrollPane scrollPane;
     private JPanel container;
+    private JButton backButton;
 
-    public HistoryView() throws HeadlessException {
+    public HistoryMenuView() throws HeadlessException {
         add(mainPanel);
+
         scrollPane.setViewportBorder(null);
+
+        backButton.addActionListener(e -> Game.WINDOW.mainMenu());
     }
 
     public void addHistoryButtons() {
@@ -23,6 +29,8 @@ public class HistoryView extends JPanel {
         for (GameFileModel gameFile : getAllUserGames()) {
             Button button = new Button("Game " + gameFile.getIndex());
             button.setPreferredSize(new Dimension(150, 50));
+            button.addActionListener(e -> Game.WINDOW.historyBoard(gameFile)
+            );
             container.add(button);
         }
     }

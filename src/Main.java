@@ -7,7 +7,5 @@ public class Main {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         Game game = new Game();
-//        HistoryView view = new HistoryView();
-
     }
 }

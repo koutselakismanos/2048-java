@@ -1,21 +1,20 @@
 package utilities;
 
-import view.BoardView;
-import view.HistoryView;
-import view.HomeView;
-import view.MenuView;
+import model.GameFileModel;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Window extends JFrame {
     private static Window instance;
-    private final int width = 1200;
-    private final int height = width / 16 * 9; // get 16:9 aspect ratio
+    private final int width = 1280;
+    private final int height = 720;
 
-    private final BoardView boardView = new BoardView();
+    private final BoardView boardView = new BoardView(Game.BOARD_CONTROLLER);
     private final HomeView homeView = new HomeView();
-    private final HistoryView historyView = new HistoryView();
+    private final HistoryMenuView historyMenuView = new HistoryMenuView();
+    private final HistoryBoardView historyBoardView = new HistoryBoardView();
     private final MenuView menuView = new MenuView();
 
     private final CardLayout cardLayout = new CardLayout();
@@ -52,7 +51,8 @@ public class Window extends JFrame {
 
         mainPanel.add(homeView, "home_view");
         mainPanel.add(menuView, "menu_view");
-        mainPanel.add(historyView, "history_view");
+        mainPanel.add(historyMenuView, "history_menu_view");
+        mainPanel.add(historyBoardView, "history_board_view");
         mainPanel.add(boardView, "board_view");
         add(mainPanel);
 
@@ -70,13 +70,23 @@ public class Window extends JFrame {
 
     public void newGame() {
         cardLayout.show(mainPanel, "board_view");
-        menuView.setPlayerNameLabel(Game.getPlayerName());
         requestFocusInWindow();
     }
 
-    public void history() {
-        cardLayout.show(mainPanel, "history_view");
-        historyView.addHistoryButtons();
+    public void mainMenu() {
+        cardLayout.show(mainPanel, "menu_view");
+        requestFocusInWindow();
+    }
+
+    public void historyMenu() {
+        cardLayout.show(mainPanel, "history_menu_view");
+        historyMenuView.addHistoryButtons();
+        requestFocusInWindow();
+    }
+
+    public void historyBoard(GameFileModel gameFile) {
+        cardLayout.show(mainPanel, "history_board_view");
+        historyBoardView.loadGame(gameFile);
         requestFocusInWindow();
     }
 }

@@ -3,6 +3,7 @@ package database;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controller.HistoryController;
+import model.BoardModel;
 import model.GameFileModel;
 import model.HistoryModel;
 import utilities.Game;
@@ -36,17 +37,15 @@ public class Database {
         }
     }
 
-    public void loadGame(int index) {
+    public HistoryModel loadGame(int index) {
         String path = storageFolder + Game.getPlayerName() + "_" + index + ".json";
         try (FileReader reader = new FileReader(path)) {
-            System.out.println(gson);
-            HistoryModel meow = gson.fromJson(reader, HistoryModel.class);
-            HistoryController co = new HistoryController();
-            co.setBoards(meow.boards);
-            co.printBoards();
+            return gson.fromJson(reader, HistoryModel.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
     public List<GameFileModel> getAllUserGames() {

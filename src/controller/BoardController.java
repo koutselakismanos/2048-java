@@ -61,6 +61,13 @@ public class BoardController extends BoardModel {
         }
     }
 
+    public void setBoard(BoardModel boardModel) {
+        this.tiles = boardModel.tiles;
+        this.time = boardModel.time;
+        this.score = boardModel.score;
+        this.boardSize = boardModel.boardSize;
+    }
+
     public void insertRandomTile() {
         List<Point> emptyTiles = new ArrayList<>();
 
@@ -273,7 +280,7 @@ public class BoardController extends BoardModel {
         // deep clone the 2 dimensional tile lists
         List<List<TileModel>> tilesClone = this.tiles.stream().map(ArrayList::new).collect(Collectors.toList());
 
-        Game.HISTORY_CONTROLLER.addBoard(new BoardModel(tilesClone, 4, score, time));
+        Game.HISTORY_CONTROLLER.addBoard(new BoardModel(tilesClone, boardSize, score, time));
     }
 
     public void calculateScore() {
