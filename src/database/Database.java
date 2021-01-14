@@ -62,18 +62,22 @@ public class Database {
      */
     public List<GameFileModel> getAllUserGames() {
         List<GameFileModel> gameFiles = new ArrayList<>();
-        if (!Game.getPlayerName().equals("")) {
-            File dir = new File(storageFolder);
-            for (File file : Objects.requireNonNull(dir.listFiles())) {
-                if (file.getName().startsWith(Game.getPlayerName())) {
-                    String index = file
-                            .getName()
-                            .substring(0, file.getName().length() - 5)
-                            .split("_")[1];
+        try {
+            if (!Game.getPlayerName().equals("")) {
+                File dir = new File(storageFolder);
+                for (File file : Objects.requireNonNull(dir.listFiles())) {
+                    if (file.getName().startsWith(Game.getPlayerName())) {
+                        String index = file
+                                .getName()
+                                .substring(0, file.getName().length() - 5)
+                                .split("_")[1];
 
-                    gameFiles.add(new GameFileModel(file.getAbsolutePath(), Game.getPlayerName(), Integer.parseInt(index)));
+                        gameFiles.add(new GameFileModel(file.getAbsolutePath(), Game.getPlayerName(), Integer.parseInt(index)));
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
         return gameFiles;
@@ -85,10 +89,15 @@ public class Database {
     public int getCountOfUserGames() {
         File dir = new File(storageFolder);
         int count = 0;
-        for (File file : Objects.requireNonNull(dir.listFiles())) {
-            if (file.getName().startsWith(Game.getPlayerName())) {
-                count++;
+        try {
+
+            for (File file : Objects.requireNonNull(dir.listFiles())) {
+                if (file.getName().startsWith(Game.getPlayerName())) {
+                    count++;
+                }
             }
+        } catch (Exception e) {
+            return 0;
         }
 
         return count;
