@@ -1,6 +1,6 @@
 package model;
 
-public class PlayerSchema {
+public class PlayerModel {
     private String name;
 
     public String getName() {

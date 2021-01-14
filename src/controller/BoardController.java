@@ -1,30 +1,42 @@
 package controller;
 
-import model.BoardSchema;
-import model.TileSchema;
+import model.BoardModel;
+import model.TileModel;
 import utilities.Game;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class BoardController extends BoardSchema {
+public class BoardController extends BoardModel {
+    private final int delay = 1000;
+    private Timer timer;
 
     public BoardController(int boardSize) {
-        super();
         this.boardSize = boardSize;
+    }
 
+    public void resetBoard() {
+        time = 0;
+
+        ActionListener taskPerformer = evt -> {
+            time += delay;
+            Game.WINDOW.repaint();
+        };
+        timer = new Timer(delay, taskPerformer);
+        timer.start();
+
+        score = 0;
         generateBoard();
 
+        // insert 2 random tiles
         insertRandomTile();
         insertRandomTile();
         addBoardToHistory();
-//        HistoryController historyController = new HistoryController();
-//        historyController.printBoards();
-//        history.printHistory();
-//        historyController.saveBoard(model.getTiles());
     }
 
     public void generateBoard() {
@@ -87,10 +99,10 @@ public class BoardController extends BoardSchema {
             return;
         }
 
-        tiles.get(x).set(y, new TileSchema(x, y, value));
+        tiles.get(x).set(y, new TileModel(x, y, value));
     }
 
-    public TileSchema getTileAt(int x, int y) {
+    public TileModel getTileAt(int x, int y) {
         return tiles.get(x).get(y);
     }
 
@@ -98,8 +110,8 @@ public class BoardController extends BoardSchema {
         tiles.get(x).set(y, null);
     }
 
-    public boolean isTileEmpty(int x, int y) {
-        return tiles.get(x).get(y) == null;
+    public boolean isTileNotEmpty(int x, int y) {
+        return tiles.get(x).get(y) != null;
     }
 
     public int getTileValue(int x, int y) {
@@ -115,7 +127,7 @@ public class BoardController extends BoardSchema {
         for (int i = 0; i < boardSize; i++) {
             count = 0;
             for (int j = 0; j < boardSize; j++) {
-                if (!isTileEmpty(i, j)) {
+                if (isTileNotEmpty(i, j)) {
                     setTileAt(i, count, getTileValue(i, j));
                     if (count < j) {
                         removeTileAt(i, j);
@@ -143,7 +155,7 @@ public class BoardController extends BoardSchema {
         for (int i = 0; i < boardSize; i++) {
             count = boardSize - 1;
             for (int j = boardSize - 1; j >= 0; j--) {
-                if (!isTileEmpty(i, j)) {
+                if (isTileNotEmpty(i, j)) {
                     setTileAt(i, count, getTileValue(i, j));
                     if (count > j) {
                         removeTileAt(i, j);
@@ -170,7 +182,7 @@ public class BoardController extends BoardSchema {
         for (int j = 0; j < boardSize; j++) {
             count = 0;
             for (int i = 0; i < boardSize; i++) {
-                if (!isTileEmpty(i, j)) {
+                if (isTileNotEmpty(i, j)) {
                     setTileAt(count, j, getTileValue(i, j));
                     if (count < i) {
                         removeTileAt(i, j);
@@ -198,7 +210,7 @@ public class BoardController extends BoardSchema {
         for (int j = 0; j < boardSize; j++) {
             count = boardSize - 1;
             for (int i = boardSize - 1; i >= 0; i--) {
-                if (!isTileEmpty(i, j)) {
+                if (isTileNotEmpty(i, j)) {
                     setTileAt(count, j, getTileValue(i, j));
                     if (count > i) {
                         removeTileAt(i, j);
@@ -226,6 +238,7 @@ public class BoardController extends BoardSchema {
         mergeTilesLeft();
         shiftTilesLeft();
         insertRandomTile();
+        calculateScore();
         addBoardToHistory();
     }
 
@@ -234,6 +247,7 @@ public class BoardController extends BoardSchema {
         mergeTilesRight();
         shiftTilesRight();
         insertRandomTile();
+        calculateScore();
         addBoardToHistory();
     }
 
@@ -242,6 +256,7 @@ public class BoardController extends BoardSchema {
         mergeTilesUp();
         shiftTilesUp();
         insertRandomTile();
+        calculateScore();
         addBoardToHistory();
     }
 
@@ -250,18 +265,35 @@ public class BoardController extends BoardSchema {
         mergeTilesDown();
         shiftTilesDown();
         insertRandomTile();
+        calculateScore();
         addBoardToHistory();
     }
 
     public void addBoardToHistory() {
         // deep clone the 2 dimensional tile lists
-        List<List<TileSchema>> tilesClone = this.tiles.stream().map(ArrayList::new).collect(Collectors.toList());
+        List<List<TileModel>> tilesClone = this.tiles.stream().map(ArrayList::new).collect(Collectors.toList());
 
-        Game.HISTORY_CONTROLLER.addBoard(new BoardSchema(tilesClone, 4));
+        Game.HISTORY_CONTROLLER.addBoard(new BoardModel(tilesClone, 4, score, time));
     }
 
-    public int getBoardSize() {
-        return boardSize;
+    public void calculateScore() {
+        int sum = 0;
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (isTileNotEmpty(i, j)) {
+                    sum += tiles.get(i).get(j).getValue();
+                }
+            }
+        }
+
+        score = sum;
     }
 
+    public long getTimer() {
+        return time;
+    }
+
+    public long getScore() {
+        return score;
+    }
 }

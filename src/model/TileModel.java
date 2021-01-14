@@ -1,6 +1,6 @@
 package model;
 
-public class TileSchema {
+public class TileModel {
     private int positionX;
     private int positionY;
     private int value;
@@ -10,7 +10,7 @@ public class TileSchema {
      * @param y     position
      * @param value of tile
      */
-    public TileSchema(int x, int y, int value) {
+    public TileModel(int x, int y, int value) {
         this.positionX = x;
         this.positionY = y;
         this.value = value;

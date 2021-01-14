@@ -5,7 +5,7 @@ import controller.HistoryController;
 import database.Database;
 
 public class Game {
-    private static String playerName;
+    private static String playerName = "";
 
     public static final Database DATABASE = Database.getInstance();
     public static final HistoryController HISTORY_CONTROLLER = new HistoryController();

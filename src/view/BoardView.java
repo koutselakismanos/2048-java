@@ -8,11 +8,12 @@ import java.awt.*;
 public class BoardView extends JPanel {
     final int fontSize = 30;
     final Font font = new Font("", Font.BOLD, fontSize);
+    final Font smallerFont = new Font("", Font.BOLD, fontSize - 5);
 
     int canvasXCenterPosition;
     int canvasYCenterPosition;
 
-    final int boardDimensions = 200;
+    final int boardDimensions = 250;
     final int strokeWidth = 7;
 
     int leftX;
@@ -21,6 +22,7 @@ public class BoardView extends JPanel {
     int bottomY;
 
     int tileDimensions;
+
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -31,7 +33,7 @@ public class BoardView extends JPanel {
         Dimension size = getSize();
 
         int xOffset = 0; // in case i need to move the board in x or y axis
-        int yOffset = 0;
+        int yOffset = 50;
 
         // get center of JPanel
         canvasXCenterPosition = (int) size.getWidth() / 2 + xOffset;
@@ -49,6 +51,9 @@ public class BoardView extends JPanel {
 
         drawTiles(g2d);
         drawGrid(g2d);
+        drawScore(g2d);
+        drawTimer(g2d);
+        drawPlayerName(g2d);
     }
 
     /**
@@ -93,23 +98,60 @@ public class BoardView extends JPanel {
             g2d.setColor(Palette.fontColor2);
         }
 
+        if (Integer.parseInt(value) > 100) {
+            drawCenteredString(
+                    g2d,
+                    value,
+                    new Rectangle(tileLeftX, tileTopY, tileDimensions, tileDimensions),
+                    smallerFont
+            );
+            return;
+        }
+
         drawCenteredString(
                 g2d,
                 value,
                 new Rectangle(tileLeftX, tileTopY, tileDimensions, tileDimensions),
                 font
         );
+
     }
 
     private void drawTiles(Graphics2D g2d) {
         for (int i = 0; i < Game.BOARD_CONTROLLER.getBoardSize(); i++) {
             for (int j = 0; j < Game.BOARD_CONTROLLER.getBoardSize(); j++) {
-                if (!Game.BOARD_CONTROLLER.isTileEmpty(i, j)) {
+                if (Game.BOARD_CONTROLLER.isTileNotEmpty(i, j)) {
                     drawTile(g2d, i, j, String.valueOf(Game.BOARD_CONTROLLER.getTileValue(i, j)));
                 }
             }
         }
     }
+
+    private void drawPlayerName(Graphics2D g2d) {
+        g2d.setFont(font);
+        g2d.setColor(Palette.fontColor1);
+        String scoreString = "Player: " + Game.getPlayerName();
+        g2d.drawString(scoreString, leftX, topY - 85);
+    }
+
+    private void drawScore(Graphics2D g2d) {
+        g2d.setFont(font);
+        g2d.setColor(Palette.fontColor1);
+        String scoreString = "Score: " + Game.BOARD_CONTROLLER.getScore();
+        g2d.drawString(scoreString, leftX, topY - 50);
+    }
+
+    private void drawTimer(Graphics2D g2d) {
+        g2d.setFont(font);
+        g2d.setColor(Palette.fontColor1);
+
+        long milliseconds = Game.BOARD_CONTROLLER.getTime();
+        long minutes = (milliseconds / 1000) / 60;
+        int seconds = (int) ((milliseconds / 1000) % 60);
+        String timerString = String.format("Time: %02d:%02d", minutes, seconds);
+        g2d.drawString(timerString, leftX, topY - 15);
+    }
+
 
     /**
      * view.Draw a String centered in the middle of a Rectangle.

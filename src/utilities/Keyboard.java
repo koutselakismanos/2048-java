@@ -39,7 +39,11 @@ public class Keyboard implements KeyListener {
                 break;
 
             case KeyEvent.VK_G:
-                Game.DATABASE.store(Game.HISTORY_CONTROLLER);
+                Game.DATABASE.storeGame(Game.HISTORY_CONTROLLER);
+                break;
+
+            case KeyEvent.VK_L:
+                Game.DATABASE.loadGame(1);
                 break;
 
             case KeyEvent.VK_F:

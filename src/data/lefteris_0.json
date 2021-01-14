@@ -1,0 +1,423 @@
+{
+  "boards": [
+    {
+      "tiles": [
+        [
+          null,
+          null,
+          {
+            "positionX": 0,
+            "positionY": 2,
+            "value": 2
+          },
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "positionX": 2,
+            "positionY": 2,
+            "value": 2
+          },
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "boardSize": 4,
+      "score": 0,
+      "time": 0
+    },
+    {
+      "tiles": [
+        [
+          null,
+          {
+            "positionX": 0,
+            "positionY": 1,
+            "value": 2
+          },
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "positionX": 3,
+            "positionY": 2,
+            "value": 4
+          },
+          null
+        ]
+      ],
+      "boardSize": 4,
+      "score": 6,
+      "time": 1000
+    },
+    {
+      "tiles": [
+        [
+          {
+            "positionX": 0,
+            "positionY": 0,
+            "value": 2
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 1,
+            "positionY": 0,
+            "value": 4
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 3,
+            "positionY": 0,
+            "value": 4
+          },
+          null,
+          null,
+          null
+        ]
+      ],
+      "boardSize": 4,
+      "score": 10,
+      "time": 1000
+    },
+    {
+      "tiles": [
+        [
+          {
+            "positionX": 0,
+            "positionY": 0,
+            "value": 2
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 2,
+            "positionY": 0,
+            "value": 2
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 3,
+            "positionY": 0,
+            "value": 8
+          },
+          null,
+          null,
+          null
+        ]
+      ],
+      "boardSize": 4,
+      "score": 12,
+      "time": 1000
+    },
+    {
+      "tiles": [
+        [
+          {
+            "positionX": 0,
+            "positionY": 0,
+            "value": 4
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 1,
+            "positionY": 0,
+            "value": 8
+          },
+          null,
+          null,
+          {
+            "positionX": 1,
+            "positionY": 3,
+            "value": 2
+          }
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "boardSize": 4,
+      "score": 14,
+      "time": 1000
+    },
+    {
+      "tiles": [
+        [
+          {
+            "positionX": 0,
+            "positionY": 0,
+            "value": 4
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 1,
+            "positionY": 0,
+            "value": 8
+          },
+          {
+            "positionX": 1,
+            "positionY": 1,
+            "value": 2
+          },
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          {
+            "positionX": 3,
+            "positionY": 3,
+            "value": 2
+          }
+        ]
+      ],
+      "boardSize": 4,
+      "score": 16,
+      "time": 1000
+    },
+    {
+      "tiles": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "positionX": 1,
+            "positionY": 2,
+            "value": 2
+          },
+          null
+        ],
+        [
+          {
+            "positionX": 2,
+            "positionY": 0,
+            "value": 4
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 3,
+            "positionY": 0,
+            "value": 8
+          },
+          {
+            "positionX": 3,
+            "positionY": 1,
+            "value": 2
+          },
+          null,
+          {
+            "positionX": 3,
+            "positionY": 3,
+            "value": 2
+          }
+        ]
+      ],
+      "boardSize": 4,
+      "score": 18,
+      "time": 1000
+    },
+    {
+      "tiles": [
+        [
+          {
+            "positionX": 0,
+            "positionY": 0,
+            "value": 4
+          },
+          {
+            "positionX": 0,
+            "positionY": 1,
+            "value": 2
+          },
+          {
+            "positionX": 0,
+            "positionY": 2,
+            "value": 2
+          },
+          {
+            "positionX": 0,
+            "positionY": 3,
+            "value": 2
+          }
+        ],
+        [
+          {
+            "positionX": 1,
+            "positionY": 0,
+            "value": 8
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 2,
+            "positionY": 0,
+            "value": 2
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "boardSize": 4,
+      "score": 20,
+      "time": 1000
+    },
+    {
+      "tiles": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 1,
+            "positionY": 0,
+            "value": 4
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "positionX": 2,
+            "positionY": 0,
+            "value": 8
+          },
+          null,
+          null,
+          {
+            "positionX": 2,
+            "positionY": 3,
+            "value": 2
+          }
+        ],
+        [
+          {
+            "positionX": 3,
+            "positionY": 0,
+            "value": 2
+          },
+          {
+            "positionX": 3,
+            "positionY": 1,
+            "value": 2
+          },
+          {
+            "positionX": 3,
+            "positionY": 2,
+            "value": 2
+          },
+          {
+            "positionX": 3,
+            "positionY": 3,
+            "value": 2
+          }
+        ]
+      ],
+      "boardSize": 4,
+      "score": 22,
+      "time": 1000
+    }
+  ]
+}

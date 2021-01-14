@@ -21,12 +21,7 @@ public class HomeView extends JPanel {
     private void initComponents() {
         add(mainPanel);
 
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                startGame();
-            }
-        });
+        startButton.addActionListener(e -> startGame());
 
         playerNameTextField.addKeyListener(new KeyAdapter() {
             @Override
@@ -43,6 +38,7 @@ public class HomeView extends JPanel {
 
     private void startGame() {
         if (!playerNameTextField.getText().equals("")) {
+            Game.setPlayerName(playerNameTextField.getText());
             Game.WINDOW.startGame();
         }
     }
