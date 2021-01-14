@@ -27,6 +27,48 @@ public class BoardView extends JPanel {
         this.boardController = boardController;
     }
 
+    public BoardView(BoardController boardController, Boolean drawBackButton) {
+        this.boardController = boardController;
+
+        if (drawBackButton) {
+            JComboBox<String> comboBox = new JComboBox<>(new String[]{"easy", "medium", "hard"});
+            comboBox.setFocusable(false);
+            comboBox.addActionListener(e -> {
+                switch (comboBox.getSelectedIndex()) {
+                    case 0:
+                        // easy
+                        Game.BOARD_CONTROLLER.setBoardSize(6);
+                        Game.BOARD_CONTROLLER.resetBoard();
+                        break;
+
+                    case 1:
+                        // medium
+                        Game.BOARD_CONTROLLER.setBoardSize(5);
+                        Game.BOARD_CONTROLLER.resetBoard();
+                        break;
+
+                    case 2:
+                        // hard
+                        Game.BOARD_CONTROLLER.setBoardSize(4);
+                        Game.BOARD_CONTROLLER.resetBoard();
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+            add(comboBox);
+
+            Button btn = new Button("back");
+            btn.addActionListener(e -> {
+                Game.BOARD_CONTROLLER.stopGame();
+                Game.WINDOW.mainMenu();
+            });
+            btn.setFocusable(false);
+            add(btn);
+        }
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -57,6 +99,9 @@ public class BoardView extends JPanel {
         drawScore(g2d);
         drawTimer(g2d);
         drawPlayerName(g2d);
+//        if (drawBackButton) {
+//            drawBackButton();
+//        }
     }
 
     /**
@@ -213,5 +258,4 @@ public class BoardView extends JPanel {
     public void setBoardDimensions(int boardDimensions) {
         this.boardDimensions = boardDimensions;
     }
-
 }

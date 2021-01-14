@@ -21,7 +21,6 @@ public class Database {
     private Database() {
         this.gson = new GsonBuilder()
                 .serializeNulls()
-                .setPrettyPrinting() // delete pretty printing
                 .create();
     }
 

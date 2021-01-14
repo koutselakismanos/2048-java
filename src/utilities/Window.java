@@ -11,7 +11,7 @@ public class Window extends JFrame {
     private final int width = 1280;
     private final int height = 720;
 
-    private final BoardView boardView = new BoardView(Game.BOARD_CONTROLLER);
+    private final BoardView boardView = new BoardView(Game.BOARD_CONTROLLER, true);
     private final HomeView homeView = new HomeView();
     private final HistoryMenuView historyMenuView = new HistoryMenuView();
     private final HistoryBoardView historyBoardView = new HistoryBoardView();

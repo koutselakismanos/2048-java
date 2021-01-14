@@ -38,16 +38,6 @@ public class Keyboard implements KeyListener {
                 Game.BOARD_CONTROLLER.moveRight();
                 break;
 
-            case KeyEvent.VK_G:
-                Game.DATABASE.storeGame(Game.HISTORY_CONTROLLER);
-                break;
-
-            case KeyEvent.VK_L:
-                Game.DATABASE.loadGame(1);
-                break;
-
-            case KeyEvent.VK_F:
-                Game.HISTORY_CONTROLLER.printBoards();
             default:
                 return;
         }

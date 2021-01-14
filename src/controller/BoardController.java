@@ -21,6 +21,11 @@ public class BoardController extends BoardModel {
     }
 
     public void resetBoard() {
+        if (timer != null) {
+            timer.stop();
+        }
+
+        resetHistory();
         time = 0;
 
         ActionListener taskPerformer = evt -> {
@@ -37,6 +42,12 @@ public class BoardController extends BoardModel {
         insertRandomTile();
         insertRandomTile();
         addBoardToHistory();
+        Game.WINDOW.repaint();
+    }
+
+    public void stopGame() {
+        timer.stop();
+        Game.DATABASE.storeGame(Game.HISTORY_CONTROLLER);
     }
 
     public void generateBoard() {
@@ -281,6 +292,10 @@ public class BoardController extends BoardModel {
         List<List<TileModel>> tilesClone = this.tiles.stream().map(ArrayList::new).collect(Collectors.toList());
 
         Game.HISTORY_CONTROLLER.addBoard(new BoardModel(tilesClone, boardSize, score, time));
+    }
+
+    public void resetHistory() {
+        Game.HISTORY_CONTROLLER.resetHistory();
     }
 
     public void calculateScore() {

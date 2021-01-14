@@ -6,14 +6,13 @@ import model.HistoryModel;
 import utilities.Game;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class HistoryBoardView extends JPanel {
     private JPanel mainPanel;
     private JSlider turnSlider;
     private JPanel boardPanel;
+    private JButton backButton;
     private BoardController boardController;
     private HistoryModel historyModel;
 
@@ -21,6 +20,7 @@ public class HistoryBoardView extends JPanel {
         add(mainPanel);
 
         turnSlider.addChangeListener(e -> changeBoard());
+        backButton.addActionListener(e -> Game.WINDOW.historyMenu());
     }
 
     public void changeBoard() {
@@ -29,6 +29,7 @@ public class HistoryBoardView extends JPanel {
     }
 
     public void loadGame(GameFileModel gameFile) {
+        turnSlider.setValue(0);
         historyModel = Game.DATABASE.loadGame(gameFile.getIndex());
         turnSlider.setMaximum(historyModel.boards.size() - 1);
     }
@@ -36,6 +37,9 @@ public class HistoryBoardView extends JPanel {
     private void createUIComponents() {
         turnSlider = new JSlider(0, 10);
         turnSlider.setValue(0);
+        turnSlider.setLabelTable(null);
+        turnSlider.setPaintTicks(true);
+        turnSlider.setPaintLabels(true);
 
         boardController = new BoardController(0);
         BoardView boardView = new BoardView(boardController);

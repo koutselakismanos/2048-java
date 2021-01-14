@@ -14,7 +14,6 @@ public class MenuView extends JPanel {
 
     public MenuView() {
         initComponents();
-
     }
 
     private void initComponents() {
@@ -25,7 +24,6 @@ public class MenuView extends JPanel {
         historyButton.addActionListener(e -> historyMenu());
 
         exitButton.addActionListener(e -> System.exit(0));
-
     }
 
     private void newGame() {
